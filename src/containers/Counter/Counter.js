@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import  * as actionTypes from '../../store/actions'
-
+import  * as actionCreators from '../../store/actions/index'
 import CounterControl from '../../components/CounterControl/CounterControl';
 import CounterOutput from '../../components/CounterOutput/CounterOutput';
 
@@ -10,22 +9,6 @@ class Counter extends Component {
         counter: 0
     }
 
-    counterChangedHandler = ( action, value ) => {
-        switch ( action ) {
-            case 'inc':
-                this.setState( ( prevState ) => { return { counter: prevState.counter + 1 } } )
-                break;
-            case 'dec':
-                this.setState( ( prevState ) => { return { counter: prevState.counter - 1 } } )
-                break;
-            case 'add':
-                this.setState( ( prevState ) => { return { counter: prevState.counter + value } } )
-                break;
-            case 'sub':
-                this.setState( ( prevState ) => { return { counter: prevState.counter - value } } )
-                break;
-        }
-    }
 
     render () {
         return (
@@ -55,13 +38,15 @@ const mapStateToProps=(state)=>{ //like subscription
 }
 const mapDispatchToProps=(dispatch)=>{ // like dispatch
     return {
-        onIncrementCounter:()=>dispatch({type:actionTypes.INCREMENT}), 
-        onDecrementCounter:()=>dispatch({type:actionTypes.DECREMENT}),
-        onAddCounter:()=>dispatch({type:actionTypes.ADD,val:10}),
-        onSubtractCounter:()=>dispatch({type:actionTypes.SUBTRACT,val:5}),
-        onStoreResult:(result)=>dispatch({type:actionTypes.STORE_RESULT,result:result}),
-        onDeleteResult:(val)=>dispatch({type:actionTypes.DELETE_RESULT,id:val}),
+        onIncrementCounter:()=>dispatch(actionCreators.increment()), 
+        onDecrementCounter:()=>dispatch(actionCreators.decrement()),
+        onAddCounter:()=>dispatch(actionCreators.add(10)),
+        onSubtractCounter:()=>dispatch(actionCreators.subtract(5)),
+        onStoreResult:(result)=>dispatch(actionCreators.storeResult(result)),
+        onDeleteResult:(val)=>dispatch(actionCreators.deleteResult(val)),
         
     }
 }
+
+
 export default connect(mapStateToProps,mapDispatchToProps )(Counter); // this will connect   mapStateToProps fn to Counter Component
